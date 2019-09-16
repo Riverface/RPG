@@ -1,3 +1,2 @@
-# sudoku-checker
 # RPG
 # RPG
