@@ -1,10 +1,10 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');  
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');  // new line
-
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
-  
+  mode:"development",
+  target:'node',
   entry: './src/main.js',
   output: {
     filename: 'bundle.js',
@@ -15,46 +15,43 @@ module.exports = {
     contentBase: './docs'
   },
   plugins: [
-    new UglifyJsPlugin(),    // new line
+    new UglifyJsPlugin({sourceMap: true}),    
     new CleanWebpackPlugin(['docs']),
     new HtmlWebpackPlugin({
       title: 'RPG',
-      template: './src/index.html',  
-      inject: 'head'
-    })
-
-  ],
+      template: './src/index.html',
+      inject: 'body'
+  })],
   module: {
-  rules: [
-    {
-      test: /\.css$/,
-      use: [
-        'style-loader',
-        'css-loader'
-
-      ]
-    },
-    {
-      test: /\.js$/,
-      exclude: [
-        /node_modules/,
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader'
+        ]
+      },
+      {
+        test: /\.js$/,
+        exclude: [
+            /node_modules/,
         /spec/
-      ],
-      loader: "eslint-loader"
-    },
-{
-  test: /\.(wav|mp3|png|gif)$/,
-  use: [
-    {
-      loader: 'file-loader',
-      options: {
-        outputPath: 'media',
-        name: '[name].[ext]',
+        ],
+        loader: "eslint-loader"
+      },
+      {
+        test: /\.js$/,
+        exclude: [
+          /node_modules/,
+          /spec/
+        ],
+        loader: "babel-loader",
+        options: {
+          presets: ['es2015']
+        }
       }
-}
-   ]
-}
-  ]
-}
-
+      
+      
+    ]
+  }
 };

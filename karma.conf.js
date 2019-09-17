@@ -1,8 +1,8 @@
+// Karma configuration
 const webpackConfig = require('./webpack.config.js');
-
 module.exports = function(config) {
   config.set({
-    basePath: '',
+    basePath: "",
     frameworks: ['jquery-3.2.1', 'jasmine'],
     files: [
       'src/*.js',
@@ -12,24 +12,25 @@ module.exports = function(config) {
     exclude: [
     ],
     preprocessors: {
-      'src/*.js': ['webpack'],
-      'spec/*spec.js': ['webpack']
+      'src/*.js': ['webpack', 'sourcemap'],
+      'spec/*spec.js': ['webpack', 'sourcemap']
     },
     plugins: [
       'karma-jquery',
       'karma-webpack',
       'karma-jasmine',
-      'karma-opera-launcher',
-      'karma-chrome-launcher',
-      'karma-jasmine-html-reporter'
+      'karma-Chrome-launcher',
+      'karma-jasmine-html-reporter',
+      'karma-sourcemap-loader'
     ],
     reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Opera', 'OperaClassic','Chrome'],
+    browsers: ['Chrome'],
     singleRun: false,
-    concurrency: Infinity
+    concurrency: Infinity,
+
   })
 }
