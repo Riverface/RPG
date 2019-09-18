@@ -1,7 +1,15 @@
 // Karma configuration
 const webpackConfig = require('./webpack.config.js');
 module.exports = function(config) {
+  
   config.set({
+    logLevel: config.LOG_DEBUG,
+    client: {
+      captureConsole: true,
+      mocha: {
+        bail: true
+      }
+    },
     basePath: "",
     frameworks: ['jquery-3.2.1', 'jasmine'],
     files: [
@@ -24,6 +32,7 @@ module.exports = function(config) {
       'karma-sourcemap-loader'
     ],
     reporters: ['progress', 'kjhtml'],
+    
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
