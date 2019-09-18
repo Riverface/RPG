@@ -14,6 +14,8 @@ export class Item{
         this.defense = 0;
         this.luck = 0;
         this.speed = 0;
-
+        this.id = 0;
+    
     }
+    
 }

@@ -49,6 +49,8 @@ export class Character {
         this.turnprog = 0;
         this.level = 1;
         this.drops = [];
+        this.inventory = [];
+        this.invid = 0;
     }
     //process stats
     levelUp() {
@@ -73,7 +75,13 @@ export class Character {
         this.cHP = this.tHp;
         //melee attacks are calculated using might and spryness.
         //How fast you can swing is secondary to your ability to Follow Through on your attack.
-        this.atk = (this.might * 1.5) + (this.spryness * .5) + this.mainhand.mAtk;
+        this.atk = (this.might * 1.5) + (this.spryness * .5);
+        console.log(`Current Attack: ${this.atk}`);
+        if (this.mainhand != null) {
+
+            this.atk += this.mainhand.atk;
+            console.log(`Current Attack WITH WEAPON: ${this.atk}`);
+        }
         //ranged attacks are based on the stability of your hands (pulling the drawstring, accounting for recoil),
         // plus your ability to load your equipment efficiently (the quickness of your hands)
         this.rAtk = (this.spryness * 1.5) + (this.might * .5);
@@ -94,6 +102,32 @@ export class Character {
         this.generating = false;
         this.leveling = false;
 
+    }
+    Equip(item) {
+        item.id = null;
+        this.mainhand = item;
+        this.inventory.splice(item.id - 1, item.id - 1);
+        this.invid--;
+        this.StPr();
+    }
+    Unequip(item) {
+        if(item != null){
+
+            item.id = this.invid;
+            this.invid++;
+            this.inventory.push(item);
+            this.mainhand = null;
+            this.StPr();
+        }
+    }
+    GainItem(item) {
+        item.id = this.invid;
+        this.invid++;
+        this.inventory.push(item);
+    }
+    LoseItem(item) {
+        this.inventory.splice(item.id - 1, item.id - 10);
+        this.invid--;
     }
     // SheetPrint(){
     //     this.StPr();
@@ -118,25 +152,35 @@ export function battle(char1, char2) {
         console.log(char1.cHP);
         console.log(char2.cHP);
         if (char1.turnprog >= turnTime) {
-            console.log(char1.firstName+" attacks!");
+            console.log(char1.firstName + " attacks!");
             char2.cHP -= char1.mAtk;
             char1.turnprog -= turnTime;
         }
         if (char2.turnprog >= turnTime) {
-            console.log(char2.firstName+" attacks!");
+            console.log(char2.firstName + " attacks!");
             char1.cHP -= char1.mAtk;
             char2.turnprog -= turnTime;
         }
         if (char2.cHP <= 0) {
             char1.levelUp();
+            char2.Unequip(char2.mainhand);
+            char2.inventory.forEach(function (item) {
+                char2.LoseItem(item);
+                console.log(`${char2.firstName} lost ${item.name}!`);
+                char1.GainItem(item);
+                console.log(`${char1.firstName} gained ${item.name}!`);
+            });
             return `${char1.firstName} ${char1.lastName} wins!`;
-        }
-        else if (char1.cHP <= 0) {
+        } else if (char1.cHP <= 0) {
             char2.levelUp();
+            char1.Unequip(char2.mainhand);
+            char1.inventory.forEach(function (item) {
+                char1.LoseItem(item);
+                console.log(`${char1.firstName} lost ${item.name}!`);
+                char2.GainItem(item);
+                console.log(`${char2.firstName} gained ${item.name}!`);
+            });
             return `${char2.firstName} ${char2.lastName} wins!`;
-    
         }
-
     }
-
 }

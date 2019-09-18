@@ -12,21 +12,9 @@ var swipe = new Ability("Swipe", "Physical", "target.cHP -= self.mAtk;");
     cultist.StPr();
     var knux = new Item("Spiked Knuckles");
     knux.atk = 5;
-    cultist.drops.push(knux);
+    cultist.GainItem(knux);
+    cultist.Equip(cultist.inventory[0]);
 
-    francois.StPr();
-    console.log(nori);
-    console.log(nori.cHP, cultist.cHP);
-        // console.log(battle(nori, cultist));
-        var battleresult = battle(nori, cultist);
-        it("beat the Cultist!", function(){
-            
-            expect(battleresult).toBe("Nori Ishi wins!");
-    });
-    var battleresult2 = battle(nori,francois);
-    it("Cannot win against francois!", function(){
-        expect(battleresult2).toBe("Francois Thompson wins!");
-    });
     it("has all Character Sheet fields filled",function(){
         expect(nori.firstName && nori.lastName).toBeDefined();
     });
@@ -42,6 +30,28 @@ var swipe = new Ability("Swipe", "Physical", "target.cHP -= self.mAtk;");
             var horse = nori.might + nori.spryness + nori.echo + nori.judgment + nori.magnetism + nori.fortune;
             expect(horse).toBe(30);
         }
+    });
+    francois.StPr();
+    console.log(nori);
+    console.log(nori.cHP, cultist.cHP);
+        // console.log(battle(nori, cultist));
+        var battleresult = battle(nori, cultist);
+        it("beat the Cultist!", function(){
+            
+            expect(battleresult).toBe("Nori Ishi wins!");
+    });
+    it("has the spiked knuckles!",function(){
+        expect(nori.inventory[0].name).toBe("Spiked Knuckles");
+    });
+    var baseatk = nori.atk;
+    console.log(baseatk);
+    nori.Equip(nori.inventory[0]);
+    it("gained the benefit of the Spiked Knuckles!",function(){
+        expect(nori.atk).toBe(baseatk+5);
+    });
+    var battleresult2 = battle(nori,francois);
+    it("Cannot win against francois!", function(){
+        expect(battleresult2).toBe("Francois Thompson wins!");
     });
 
 });
