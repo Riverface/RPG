@@ -1,10 +1,10 @@
 const path = require('path');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');  
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
-  mode:"development",
-  target:'node',
+  mode: "development",
+  target: 'node',
   entry: './src/main.js',
   output: {
     filename: 'bundle.js',
@@ -15,16 +15,18 @@ module.exports = {
     contentBase: './docs'
   },
   plugins: [
-    new UglifyJsPlugin({sourceMap: true}),    
+    new UglifyJsPlugin({
+      sourceMap: true
+    }),
     new CleanWebpackPlugin(['docs']),
     new HtmlWebpackPlugin({
       title: 'RPG',
       template: './src/index.html',
       inject: 'body'
-  })],
+    })
+  ],
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.css$/,
         use: [
           'style-loader',
@@ -34,8 +36,8 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: [
-            /node_modules/,
-        /spec/
+          /node_modules/,
+          /spec/
         ],
         loader: "eslint-loader"
       },
@@ -50,8 +52,8 @@ module.exports = {
           presets: ['es2015']
         }
       }
-      
-      
+
+
     ]
   }
 };

@@ -1,4 +1,6 @@
-    export class Character {
+import $ from 'jquery';
+import 'bootstrap';
+   export class Character {
         constructor(
             firstName,
             lastName,
@@ -27,11 +29,20 @@
             this.fortuneMin = 1;
             this.generating = true;
             this.leveling = true;
+            // this.head;
+            // this.torso;
+            // this.arms;
+            // this.legs;
+            // this.feet;
+            this.mainhand;
+            this.offhand;
+            // this.accessory;
+            // this.abilities;
+            this.actions = [];
         }
         //process stats
 
         StPr() {
-
             this.tHp  = (this.might * 1.5);
             //when you level up you receive the difference in health (WIP)
             this.cHP  =(this.generating) ? this.tHp : this.cHP;
@@ -53,8 +64,49 @@
             //Luck is the opportunities you find 
             //and the ability you have to recognize those opportunities for what they are.
             this.luck = (this.judgment + this.fortune / 2);
-        }
+            this.speed = (this.spryness * 1.5) + (fortune * 1.5) / 2;
+            this.turnprog = "0";
 
+        }
+        // SheetPrint(){
+        //     this.StPr();
+        //     var printing = "";
+        //     printing+="<div id='confirmname'>" + this.firstName + " '" + this.altname + "' "+ this.lastName + "</div>"; 
+            
+        //     printing+="";
+        //     console.log(printing);
+        //         $("#charsheet").append(printing);
+        // }
     }
 
+    function Battle(char1, char2){
+        turnTime = 100
+    while( char1.cHP > 0 && char2.cHP > 0){
+        char1.turnprog+= char1.speed;
+        char2.turnprog+= char2.speed;
+        console.log(char1.turnprog, char2.turnprog);        
+        if(char1.turnprog >= 100){
+        char2.cHP--;
+        char1.turnprog -= 100;
+        }
+        if(char2.turnprog >= 100){
+            char1.cHP--;
+            char1.turnprog -= 100;
+        }
+        
+    }
+        
+    }
+
+    export class Ability{
+    constructor(
+        name,
+        type,
+        effect,
+    )
+    Execute(self, target){
+    eval(this.effect);
+
+    }
     
+    }

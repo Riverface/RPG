@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "build": "webpack --mode development",
-    "start": "npm run build webpack-dev-server --open",
+    "start": "npm run build && webpack-dev-server --open && reload -b",
     "lint": "eslint src/*.js",
     "test": "karma start karma.conf.js"
   },
@@ -17,9 +17,13 @@
     "@babel/plugin-proposal-object-rest-spread"
   ],
   "dependencies": {
+    "aws-sdk": "^2.530.0",
+    "bootstrap": "^4.3.1",
     "jquery": "^3.4.1",
     "materialize-css": "^1.0.0",
-    "popper.js": "^1.15.0"
+    "node-pre-gyp": "^0.13.0",
+    "popper.js": "^1.15.0",
+    "reload": "^3.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
